@@ -9,8 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 import Managers.FairyManager;
-import Reimu.Bullet;
-import puppy.code.PantallaJuego;
+import Managers.GameObjectManager;
 
 import java.util.Random;
 
@@ -18,10 +17,10 @@ public class Fairy extends Enemy implements EnemyTools{
 	
 	private static final Random random = new Random();
 	private float targetX, targetY; 
-	private PantallaJuego juego;
+	private GameObjectManager gameMng;
 	private FairyManager fairyMng = new FairyManager();
 
-	public Fairy (float initialPosX, float initialPosY, PantallaJuego juego) {
+	public Fairy (float initialPosX, float initialPosY, GameObjectManager gameMng) {
 		
 		spriteSheet = new Texture(Gdx.files.internal("Fairies.png"));
 		spriteRegions = TextureRegion.split(spriteSheet, 32, 32);
@@ -43,7 +42,7 @@ public class Fairy extends Enemy implements EnemyTools{
 		targetX = 600 - 16;
 	    targetY = 600;
 	    
-	    this.juego = juego;
+	    this.gameMng = gameMng;
 	}
 	
 	@Override
@@ -56,16 +55,10 @@ public class Fairy extends Enemy implements EnemyTools{
 	}
 	
 	public void update() {
+		System.out.println("Fairy Speed = "+this.getSpeed());
 		enemyMovement();
 		shootBulletHellPattern();
 	}
-
-	@Override
-	public boolean checkCollission(Bullet naveBullet) {
-		
-		return false;
-	}
-	
 	
 	/* FUNCIONES RELACIONADAS AL DISPARO DE PATRONES DE BALA DEL FAIRY
 	 * 
@@ -79,7 +72,6 @@ public class Fairy extends Enemy implements EnemyTools{
 	        isShooting = false;
 	    } 
 	    else {
-	    	System.out.println("first spawn = "+firstSpawn);
 	        // If Fairy is shooting, generate the bullet pattern and update shooting time
 	        if (isShooting) {
 	        	
@@ -90,7 +82,7 @@ public class Fairy extends Enemy implements EnemyTools{
 		            for (int i = 0; i < bulletPattern.getCantBullet(); i++) {
 		            	bulletGenTimer = 0;
 		            	EnemyBullet generatedEBullet = bulletPattern.generateBulletInPattern(spr.getX()+16, spr.getY()+16);
-		            	juego.agregarEnemyBullets(generatedEBullet);
+		            	gameMng.agregarEnemyBullets(generatedEBullet);
 		            }
 	            }
 	            
@@ -125,9 +117,6 @@ public class Fairy extends Enemy implements EnemyTools{
 	public void enemyMovement() {
 		float deltaTime = Gdx.graphics.getDeltaTime();
 		if (firstSpawn) {
-			System.out.println("Fairy X: "+spr.getX());
-			System.out.println("Fairy Y: "+spr.getY());
-			System.out.println("FIRST SPAWN GOING IN FAIRYTRACK");
 			fairyTrack(deltaTime);
             
             if (fairyInTarget()) {

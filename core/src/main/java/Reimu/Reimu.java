@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import Enemies.EnemyBullet;
-import puppy.code.PantallaJuego;
+import Managers.GameObjectManager;
 
 public class Reimu {
 	
@@ -23,7 +23,7 @@ public class Reimu {
     private Sprite spr;
     private Circle sprHitbox;
     
-    private Sound soundBala;
+    //private Sound soundBala;
     private Texture txBala;
     private int damageBala = 300;
     
@@ -37,7 +37,7 @@ public class Reimu {
     private SpriteBatch batch;
     private Texture spriteSheet;
     private TextureRegion[][] spriteRegions;
-    private TextureRegion lastSprite;
+    //private TextureRegion lastSprite;
     
     private Animation<TextureRegion> animation;
     private Animation<TextureRegion> animationLeft;
@@ -46,12 +46,12 @@ public class Reimu {
     
     public Reimu(int x, int y, Sound soundChoque, Texture txBala, Sound soundBala) {
     	sonidoHerido = soundChoque;
-    	this.soundBala = soundBala;
+    	//this.soundBala = soundBala;
     	this.txBala = txBala;
     	
     	spriteSheet = new Texture(Gdx.files.internal("reimuSpriteSheet.png"));
     	spriteRegions = TextureRegion.split(spriteSheet, 32, 48);
-    	lastSprite = new TextureRegion(spriteSheet, 320, 0, 3, 48);
+    	//lastSprite = new TextureRegion(spriteSheet, 320, 0, 3, 48);
     	
     	reimuAnimation();
     	
@@ -86,9 +86,9 @@ public class Reimu {
     	spr = new Sprite(animationFrames[0]);
     }
     
-    public void draw(SpriteBatch batch, PantallaJuego juego) {
+    public void draw(SpriteBatch batch, GameObjectManager gameMng) {
         reimuAnimationAndMovement(batch);
-        reimuShooting(juego);
+        reimuShooting(gameMng);
     }
     
     public void reimuAnimationAndMovement(SpriteBatch batch) {
@@ -131,7 +131,7 @@ public class Reimu {
 			 }
 
 			 outOfBounds();
-			 // Draw the sprite
+			 
 			 spr.draw(batch);
 			 drawReimuHitbox(batch);
         } 
@@ -152,12 +152,12 @@ public class Reimu {
 		batch.begin(); // Restart the sprite batch
     }
     
-    public void reimuShooting(PantallaJuego juego) {
+    public void reimuShooting(GameObjectManager gameMng) {
     	// Shoot bullet
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
         	if (bulletGenTimer >= bulletGenInterval) {
 	            Bullet bala = new Bullet(spr.getX() + spr.getWidth() / 2 - 5, spr.getY() + spr.getHeight() - 5, 0, 8, txBala);
-	            juego.agregarReimuBullets(bala);
+	            gameMng.agregarReimuBullets(bala);
 	            bulletGenTimer = 0f;
         	}
         }

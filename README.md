@@ -1,8 +1,12 @@
-# SpaceNav2024
+#  Touhou 69 Absolute Trash Night
 
 A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
 
 This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
+
+Also, this project was based off a previous one called "Space Navigation", which was heavily modified in order to emulate an original Touhou experience in Java.
+
+Still in development...
 
 ## Platforms
 

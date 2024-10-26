@@ -12,25 +12,24 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import BulletHellPatterns.BulletHellPattern;
 import Managers.BossManager;
-import Reimu.Bullet;
-import puppy.code.PantallaJuego;
+import Managers.GameObjectManager;
 
 public class Boss extends Enemy implements EnemyTools{
 	private ArrayList<BulletHellPattern> bossBHPlist = new ArrayList<>();
 	private static final Random random = new Random();
 	private float targetX, targetY; 
-	private PantallaJuego juego;
+	private GameObjectManager gameMng;
 	private BossManager bossMng = new BossManager();
 	private boolean changeBHP = true;
 	
-	public Boss (float initialPosX, float initialPosY, PantallaJuego juego) {
+	public Boss (float initialPosX, float initialPosY, GameObjectManager gameMng) {
 		spriteSheet = new Texture(Gdx.files.internal("allBossesSpriteSheet.png"));
 		spriteRegions = TextureRegion.split(spriteSheet, 64, 78);
 		
 		int bossChoice = random.nextInt(4);
 		bossSelectionAndAnimation(bossChoice);
 		
-		int speedChoice = random.nextInt(bossMng.getCantSpeedOptions());
+		speedChoice = random.nextInt(bossMng.getCantSpeedOptions());
 		int healthChoice = random.nextInt(bossMng.getCantHealthOptions());
 		bossMng.manageSpeed(this, speedChoice);
 		bossMng.manageHealth(this, healthChoice);
@@ -44,7 +43,7 @@ public class Boss extends Enemy implements EnemyTools{
 		targetX = 600 - 16;
 	    targetY = 600;
 	    
-	    this.juego = juego;
+	    this.gameMng = gameMng;
 	}
 	
 	public void bossSelectionAndAnimation(int bossChoice) {
@@ -104,16 +103,10 @@ public class Boss extends Enemy implements EnemyTools{
 
 	@Override
 	public void update() {
+		System.out.println("Boss Speed = "+this.getSpeed());
 		enemyMovement();
 		shootBulletHellPattern();
 	}
-
-	@Override
-	public boolean checkCollission(Bullet naveBullet) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
 	
 	/* FUNCIONES RELACIONADAS AL MOVIMIENTO DEL Boss
 	 * 
@@ -130,6 +123,7 @@ public class Boss extends Enemy implements EnemyTools{
             if (bossInTarget()) {
             	//System.out.println("First Time in Movement");
                 firstSpawn = false;
+                bossMng.manageSpeed(this, this.getSpeedChoice());
             }
 		    
 		}
@@ -153,9 +147,8 @@ public class Boss extends Enemy implements EnemyTools{
                 inTrack = false;
                 bossMng.manageSpeed(this, this.getSpeedChoice());
             }
+            outOfBounds();
         }
-        outOfBounds();
-		
 	}
 	
 	private boolean bossInTarget() {
@@ -183,7 +176,7 @@ public class Boss extends Enemy implements EnemyTools{
 	        directionX /= distance;
 	        directionY /= distance;
 
-	        speed *= 0.5f;
+	        speed *= 0.99f;
 	        if (speed < 100.0f) speed = 100.0f;
 
 	        spr.setX(currentX + directionX * speed * deltaTime);
@@ -252,7 +245,7 @@ public class Boss extends Enemy implements EnemyTools{
 		            for (int i = 0; i < bulletPattern.getCantBullet(); i++) {
 		            	bulletGenTimer = 0;
 		            	EnemyBullet generatedEBullet = bulletPattern.generateBulletInPattern(spr.getX()+16, spr.getY()+16);
-		            	juego.agregarEnemyBullets(generatedEBullet);
+		            	gameMng.agregarEnemyBullets(generatedEBullet);
 		            }
 	            }
 	            

@@ -4,17 +4,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
-
+import com.badlogic.gdx.Gdx;
 
 public class PantallaMenu implements Screen {
 
 	private SpaceNavigation game;
 	private OrthographicCamera camera;
-
+	private Texture arrows;
+	private Texture shift;
+	private Texture space;
 	public PantallaMenu(SpaceNavigation game) {
 		this.game = game;
         
+		arrows = new Texture(Gdx.files.internal("Arrow_Keys.png") );
+		shift = new Texture (Gdx.files.internal("Shift_Key.png"));
+		space = new Texture(Gdx.files.internal("Space_Key.png"));
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 1200, 800);
 	}
@@ -25,10 +31,18 @@ public class PantallaMenu implements Screen {
 
 		camera.update();
 		game.getBatch().setProjectionMatrix(camera.combined);
-
+		
 		game.getBatch().begin();
-		game.getFont().draw(game.getBatch(), "Bienvenido a Space Navigation !", 140, 400);
-		game.getFont().draw(game.getBatch(), "Pincha en cualquier lado o presiona cualquier tecla para comenzar ...", 100, 300);
+		
+		game.getBatch().draw(arrows, 50, 400, 400, 200);
+		game.getBatch().draw(shift, 100, 290, 200, 100);
+		game.getBatch().draw(space, 100, 180, 400, 100);
+		game.getFont().draw(game.getBatch(), "Usa las flechas para moverte. ", 550, 430);
+		game.getFont().draw(game.getBatch(), "Presiona SHIFT para disminuir tu movimiento ", 550, 320);
+		game.getFont().draw(game.getBatch(), "Presiona SPACE para disparar ", 550, 210);
+		game.getFont().draw(game.getBatch(), "Bienvenido a Touhou 69: Absolutely Trash Night !", 300, 750);
+		game.getFont().draw(game.getBatch(), "Controles: ", 50, 700);
+		game.getFont().draw(game.getBatch(), "Pincha en cualquier lado o presiona cualquier tecla para comenzar ...", 50, 50);
 	
 		game.getBatch().end();
 

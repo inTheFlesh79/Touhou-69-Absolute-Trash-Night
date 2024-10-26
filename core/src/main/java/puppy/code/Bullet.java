@@ -12,6 +12,7 @@ public class Bullet {
 	private int ySpeed;
 	private boolean destroyed = false;
 	private Sprite spr;
+	private int bulletDamage = 100;
 	    
 	    public Bullet(float x, float y, int xSpeed, int ySpeed, Texture tx) {
 	    	spr = new Sprite(tx);
@@ -49,6 +50,7 @@ public class Bullet {
 	        if(spr.getBoundingRectangle().overlaps(f.getBoundingRectangle())){
 	        	// Se destruyen ambos
 	            this.destroyed = true;
+	            f.setHealth(f.getHealth() - bulletDamage);
 	            return true;
 	
 	        }

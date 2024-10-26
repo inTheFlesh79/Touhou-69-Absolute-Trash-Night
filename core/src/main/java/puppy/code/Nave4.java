@@ -22,20 +22,23 @@ public class Nave4 {
     private Sprite spr;
     private Circle sprHitbox;
     
-    private Sound sonidoHerido;
-    
     private Sound soundBala;
     private Texture txBala;
     private int damageBala = 50;
     
+    private Sound sonidoHerido;
     private boolean herido = false;
     private int tiempoHeridoMax=50;
     private int tiempoHerido;
+    
     private SpriteBatch batch;
     private Texture spriteSheet;
     private TextureRegion[][] spriteRegions;
     private TextureRegion lastSprite;
+    
     private Animation<TextureRegion> animation;
+    private Animation<TextureRegion> animationLeft;
+    private Animation<TextureRegion> animationRight;
     private float animationTime = 0f;
     
     public Nave4(int x, int y, Sound soundChoque, Texture txBala, Sound soundBala) {
@@ -53,7 +56,21 @@ public class Nave4 {
             animationFrames[i] = currentSprite;
         }
     	
+    	TextureRegion[] animationFramesRight = new TextureRegion[8];
+    	for (int i = 0; i < 8; i++) {
+    		TextureRegion currentSprite = spriteRegions[2][i];
+    		animationFramesRight[i] = currentSprite;
+        }
+    	
+    	TextureRegion[] animationFramesLeft = new TextureRegion[8];
+    	for (int i = 0; i < 8; i++) {
+    		TextureRegion currentSprite = spriteRegions[1][i];
+    		animationFramesLeft[i] = currentSprite;
+        }
+    	
     	animation = new Animation<TextureRegion>(0.1f, animationFrames);
+    	animationRight = new Animation<TextureRegion>(0.1f, animationFramesRight);
+    	animationLeft = new Animation<TextureRegion>(0.1f, animationFramesLeft);
     	
     	spr = new Sprite(animationFrames[0]);
     	spr.setPosition(x, y);
@@ -62,24 +79,30 @@ public class Nave4 {
     	sprHitbox = new Circle(spr.getX() + spr.getWidth() / 2, spr.getY() + spr.getHeight()/ 2, 5f);
     	
     }
+    
     public void draw(SpriteBatch batch, PantallaJuego juego) {
         float deltaTime = Gdx.graphics.getDeltaTime();
-        float speed = 500f;
+        TextureRegion currentFrame = animation.getKeyFrame(animationTime, true);
+        float speed = 400f;
 
         if (!herido) {
             animationTime += deltaTime;
-            TextureRegion currentFrame = animation.getKeyFrame(animationTime, true); // Loop animation
+             // Loop animation
             spr.setRegion(currentFrame);
 
-            float slowSpeed = speed * 0.5f; // Define the slow speed as half of the original speed
+            float slowSpeed = speed * 0.4f; // Define the slow speed as half of the original speed
 
 	         // Movement logic
 			 if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+				 currentFrame = animationLeft.getKeyFrame(animationTime, false); // Loop animation
+		         spr.setRegion(currentFrame);
 			     float moveSpeed = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? slowSpeed : speed; // Use slowSpeed if shift is held
 			     spr.setX(spr.getX() - moveSpeed * deltaTime); // Move left
 			 }
 			
 			 if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+				 currentFrame = animationRight.getKeyFrame(animationTime, false); // Loop animation
+		         spr.setRegion(currentFrame);
 			     float moveSpeed = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? slowSpeed : speed; // Use slowSpeed if shift is held
 			     spr.setX(spr.getX() + moveSpeed * deltaTime); // Move right
 			 }
@@ -125,7 +148,7 @@ public class Nave4 {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             Bullet bala = new Bullet(spr.getX() + spr.getWidth() / 2 - 5, spr.getY() + spr.getHeight() - 5, 0, 8, txBala);
             juego.agregarBala(bala);
-            soundBala.play();
+            soundBala.play(); 
         }
     }
       

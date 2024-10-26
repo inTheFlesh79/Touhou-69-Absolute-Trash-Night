@@ -47,20 +47,6 @@ public class EnemyBullet {
         }	
 	}
 	
-	public void update() {
-	    x += velocityX;
-	    y += velocityY;
-
-	    hitbox.setPosition(x, y);
-
-	    if (x - radius < 0 || x + radius > Gdx.graphics.getWidth()) {
-	        destroyed = true;
-	    }
-	    if (y - radius < 0 || y + radius > Gdx.graphics.getHeight()) {
-	        destroyed = true;
-	    }
-	}
-	
 	public boolean checkCollission(Nave4 nave) {
 		if(hitbox.overlaps(nave.getSprHitbox())){
 			this.destroyed = true;
@@ -71,14 +57,22 @@ public class EnemyBullet {
 	
 	public void draw(SpriteBatch batch) {
         batch.draw(bulletTxt, x - radius, y - radius, radius * 2, radius * 2);
-        
-        //REQUIERE Out of bounds
     }
 	
-	public void update(float deltaTime) {
+	public void update() {
+		float deltaTime = Gdx.graphics.getDeltaTime();
+		System.out.println("deltaTime: " + deltaTime);
+	    System.out.println("velocityX: " + velocityX + ", velocityY: " + velocityY);
         x += velocityX * deltaTime;
         y += velocityY * deltaTime;
         hitbox.setPosition(x, y);
+        
+        if (x - radius < 0 || x + radius > Gdx.graphics.getWidth()) {
+	        destroyed = true;
+	    }
+	    if (y - radius < 0 || y + radius > Gdx.graphics.getHeight()) {
+	        destroyed = true;
+	    }
     }
 	
 	public Circle getHitbox() {

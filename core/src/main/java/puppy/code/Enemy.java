@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public abstract class Enemy {
 	protected boolean isDestroyed = false;
-	protected int health = 10000;
+	protected int health;
 	protected float speed;
 	protected BulletHellPattern bulletPattern; 
 	
@@ -32,11 +32,14 @@ public abstract class Enemy {
 	
 	protected boolean firstSpawn = true;
 	protected float maxIdleTime;
-	protected float idleTime = 0;
+	protected float idleTime = 0f;
 	
-	protected float maxShootingTime;
-	protected float shootingTime = 0;
-	protected float noShootingCooldown = 0;
+	protected float maxShootingTime;//kk
+	protected float shootingTime = 0f;
+	protected float noShootingCooldown = 0f;
+	
+	protected float bulletGenInterval;//kk
+	protected float bulletGenTimer = 0f;
 	
 	protected int currentArea = 1;
 	protected boolean isShooting = false;
@@ -44,4 +47,10 @@ public abstract class Enemy {
 	
 	
 	public abstract void draw(SpriteBatch batch);
+	public int getHealth() {return health;}
+	
+	public void setHealth(int health) {this.health = health;}
+	public void setSpeed(float speed) {this.speed = speed;}
+	public void setBulletPattern(BulletHellPattern bhp) {this.bulletPattern = bhp;}
+	
 }

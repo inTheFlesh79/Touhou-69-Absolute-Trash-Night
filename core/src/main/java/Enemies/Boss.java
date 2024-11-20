@@ -15,12 +15,14 @@ import Managers.BossManager;
 import Managers.GameObjectManager;
 
 public class Boss extends Enemy implements EnemyTools{
-	private ArrayList<BulletHellPattern> bossBHPlist = new ArrayList<>();
+	//private static Boss bossInstance;
 	private static final Random random = new Random();
+	
+	private boolean changeBHP = true;
 	private float targetX, targetY; 
 	private GameObjectManager gameMng;
 	private BossManager bossMng = new BossManager();
-	private boolean changeBHP = true;
+	private ArrayList<BulletHellPattern> bossBHPlist = new ArrayList<>();
 	
 	public Boss (float initialPosX, float initialPosY, GameObjectManager gameMng) {
 		spriteSheet = new Texture(Gdx.files.internal("allBossesSpriteSheet.png"));

@@ -193,15 +193,14 @@ public class GameObjectManager {
 		        for (int i = 0; i <= currentNumFairies; i++) {
 		        	//System.out.println("Fairy index: "+i);
 		        	//System.out.println("Fairy speed: "+fairies.get(i).getSpeed());
-		        	fairies.get(i).draw(batch);
-		            fairies.get(i).update();
+		        	fairies.get(i).enemyRoutine(batch);
+		            
 		        }
 		    }
 		}
 		else {
 		 	//UNLEASH THE BOSS
-			boss.draw(batch);
-			boss.update();
+			boss.enemyRoutine(batch);
 		}
 		
 	}

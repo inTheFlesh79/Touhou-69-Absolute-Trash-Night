@@ -49,6 +49,10 @@ public abstract class Enemy {
 	protected boolean isShooting = false;
 	protected boolean inTrack = false;
 	
+	public final void enemyRoutine(SpriteBatch batch) {
+		draw(batch);
+		update();
+	}
 	
 	public abstract void draw(SpriteBatch batch);
 	public abstract void update();
@@ -67,5 +71,4 @@ public abstract class Enemy {
 	public float getSpeed() { return speed; }
 	public int getBhpChoice() { return bhpChoice; }
 	public Sprite getSpr() {return spr;}
-	
 }

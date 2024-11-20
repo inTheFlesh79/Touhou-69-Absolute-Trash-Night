@@ -11,7 +11,7 @@ import Managers.SceneManager;
 import Managers.GameObjectManager;
 
 public class PantallaJuego implements Screen {
-	private SpaceNavigation game;
+	private Touhou game;
 	private OrthographicCamera camera;	
 	private SpriteBatch batch;//batch
 	private int ronda;
@@ -24,12 +24,12 @@ public class PantallaJuego implements Screen {
     // Manager para controlar la imagen de fondo del juego
     private SceneManager sceneMng;
     
-	public PantallaJuego(SpaceNavigation game, int ronda, int vidas, int score, int cantFairies) {
+	public PantallaJuego(int ronda, int vidas, int score, int cantFairies) {
+		game = Touhou.getInstance();
 		batch = game.getBatch();
 		gameMng = new GameObjectManager(batch, ronda, vidas, score, cantFairies, this);
 		sceneMng = new SceneManager(batch);
 		
-		this.game = game;
 		this.ronda = ronda;
 		gameMng.setScore(score);
 		this.cantFairies = cantFairies;
@@ -68,7 +68,7 @@ public class PantallaJuego implements Screen {
 			musicMng.stopFairiesMusic();
 			if (gameMng.getScore() > game.getHighScore())
 				game.setHighScore(gameMng.getScore());
-			Screen ss = new PantallaGameOver(game);
+			Screen ss = new PantallaGameOver();
 			ss.resize(1200, 800);
 			game.setScreen(ss);
 			dispose();
@@ -82,7 +82,7 @@ public class PantallaJuego implements Screen {
 	public void levelManagement() {
 		if (!gameMng.isBossAlive()) {
 			musicMng.stopBossMusic();
-			Screen ss = new PantallaJuego(game,ronda+1, gameMng.getReimuVidas(), gameMng.getScore(), cantFairies + 2);
+			Screen ss = new PantallaJuego(ronda+1, gameMng.getReimuVidas(), gameMng.getScore(), cantFairies + 2);
 			ss.resize(1200, 800);
 			game.setScreen(ss);
 			dispose();

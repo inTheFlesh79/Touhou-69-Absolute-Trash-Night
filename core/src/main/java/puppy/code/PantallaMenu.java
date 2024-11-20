@@ -8,15 +8,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class PantallaMenu implements Screen {
-
-	private SpaceNavigation game;
+	private Touhou game;
 	private OrthographicCamera camera;
 	private Texture arrows;
 	private Texture shift;
 	private Texture space;
-	public PantallaMenu(SpaceNavigation game) {
-		this.game = game;
-        
+	public PantallaMenu() {
+		game = Touhou.getInstance();
 		arrows = new Texture(Gdx.files.internal("Arrow_Keys.png") );
 		shift = new Texture (Gdx.files.internal("Shift_Key.png"));
 		space = new Texture(Gdx.files.internal("Space_Key.png"));
@@ -46,7 +44,7 @@ public class PantallaMenu implements Screen {
 		game.getBatch().end();
 
 		if (Gdx.input.isTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
-			Screen ss = new PantallaJuego(game,1,3,0,6);
+			Screen ss = new PantallaJuego(1,3,0,6);
 			ss.resize(1200, 800);
 			game.setScreen(ss);
 			dispose();

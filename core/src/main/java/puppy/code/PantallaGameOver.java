@@ -10,12 +10,12 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class PantallaGameOver implements Screen {
 
-	private SpaceNavigation game;
+	private Touhou game;
 	private OrthographicCamera camera;
 	private Texture gameOver;
 	
-	public PantallaGameOver(SpaceNavigation game) {
-		this.game = game;
+	public PantallaGameOver() {
+		game = Touhou.getInstance();
 		gameOver = new Texture(Gdx.files.internal("Game_Over.png") );
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 1200, 800);
@@ -35,7 +35,7 @@ public class PantallaGameOver implements Screen {
 		game.getBatch().end();
 
 		if (Gdx.input.isTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
-			Screen ss = new PantallaJuego(game,1,3,0,6);
+			Screen ss = new PantallaJuego(1,3,0,6);
 			ss.resize(1200, 800);
 			game.setScreen(ss);
 			dispose();

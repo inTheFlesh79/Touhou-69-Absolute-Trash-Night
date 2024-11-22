@@ -21,7 +21,6 @@ public class Fairy extends Enemy implements EnemyTools{
 	private FairyManager fairyMng = new FairyManager();
 
 	public Fairy (float initialPosX, float initialPosY, GameObjectManager gameMng) {
-		
 		spriteSheet = new Texture(Gdx.files.internal("Fairies.png"));
 		spriteRegions = TextureRegion.split(spriteSheet, 32, 32);
 		

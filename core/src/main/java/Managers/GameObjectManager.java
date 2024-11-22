@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import Enemies.Boss;
 import Enemies.EnemyBullet;
 import Enemies.Fairy;
+import Factory.EnemyFactory;
+import Factory.TouhouEnemyFactory;
 import Reimu.Bullet;
 import Reimu.Reimu;
 import puppy.code.PantallaJuego;
@@ -29,6 +31,9 @@ public class GameObjectManager {
 	private SpriteBatch batch;
 	private Reimu reimu;
 	private Boss boss;
+	
+	private EnemyFactory eFactory = new TouhouEnemyFactory();
+	
 	private ArrayList<Fairy> fairies = new ArrayList<>();
 	private ArrayList<Bullet> reimuBullets = new ArrayList<>();
 	private ArrayList<EnemyBullet> enemyBullets = new ArrayList<>();
@@ -52,14 +57,16 @@ public class GameObjectManager {
 				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
         reimu.setVidas(vidas);
         
+        eFactory.setCurrentObjectManager(this);
+        
         //crear Fairies
         for (int i = 0; i < cantFairies; i++) {
-        	Fairy f = new Fairy((Gdx.graphics.getWidth()/2) - 16, 932, this);
+        	Fairy f = eFactory.craftFairy();
         	fairies.add(f);
         }
         
         //crear boss
-        boss = new Boss((Gdx.graphics.getWidth()/2) - 16, 932, this);
+        boss = eFactory.craftBoss();
         System.out.println("Boss = "+isBossAlive());
 	}
 	
